@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/spacing_huge"
+        android:paddingBottom="@dimen/spacing_huge"
+        android:paddingLeft="@dimen/spacing_huge"
+        android:paddingRight="@dimen/spacing_huge"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        tools:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/track_number"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            android:textColor="@color/font_light_2"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="12"/>
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="@dimen/spacing_regular"
+            android:src="@drawable/ic_audiotrack_white_16dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/track_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/spacing_regular"
+            android:layout_marginRight="@dimen/spacing_regular"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            android:textColor="@color/font_light"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Track Title will be displayed here"/>
+
+        <TextView
+            android:id="@+id/track_duration"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            android:textColor="@color/font_light"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="4:32"/>
+
+    </LinearLayout>
+
+</layout>

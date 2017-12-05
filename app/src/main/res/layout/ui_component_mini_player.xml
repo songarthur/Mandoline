@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/player"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/spacing_regular"
+        android:background="@color/light">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/corner_regular"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false">
+
+            <ImageView
+                android:id="@+id/player_cover_art"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_album"/>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/spacing_huge"
+            android:layout_marginRight="@dimen/spacing_huge">
+
+            <TextView
+                android:id="@+id/player_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:textSize="@dimen/font_large"
+                android:textColor="@color/font_1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Track Title"/>
+
+            <TextView
+                android:id="@+id/player_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:textSize="@dimen/font_small"
+                android:textColor="@color/font_2"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Artist Name | Album Name"/>
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/action_play_pause"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="@dimen/spacing_small"
+            android:src="@drawable/ico_play_pause_selector"
+            android:tint="@color/font_light"
+            app:fabSize="mini"
+            app:elevation="0dp"/>
+
+    </LinearLayout>
+
+</layout>
