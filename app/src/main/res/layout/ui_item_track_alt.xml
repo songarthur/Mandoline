@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/spacing_large"
+        android:paddingBottom="@dimen/spacing_large"
+        android:paddingLeft="@dimen/spacing_huge"
+        android:paddingRight="@dimen/spacing_huge"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        tools:background="@color/colorPrimaryDark">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/spacing_large">
+
+            <TextView
+                android:id="@+id/track_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_large"
+                android:textStyle="normal"
+                android:textColor="@color/font_light"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Track Title will be displayed here"/>
+
+            <TextView
+                android:id="@+id/track_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:textStyle="normal"
+                android:textColor="@color/font_light_2"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Artist Name"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/track_duration"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            android:textColor="@color/font_light"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="4:32"/>
+
+    </LinearLayout>
+
+</layout>

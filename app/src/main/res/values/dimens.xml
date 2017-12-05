@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <dimen name="elevation_very_low">2dp</dimen>
+    <dimen name="elevation_low">4dp</dimen>
+    <dimen name="elevation_regular">8dp</dimen>
+    <dimen name="elevation_high">12dp</dimen>
+    <dimen name="elevation_very_high">16dp</dimen>
+
+    <dimen name="spacing_tiny">2dp</dimen>
+    <dimen name="spacing_small">4dp</dimen>
+    <dimen name="spacing_regular">8dp</dimen>
+    <dimen name="spacing_large">12dp</dimen>
+    <dimen name="spacing_huge">16dp</dimen>
+
+    <dimen name="corner_tiny">2dp</dimen>
+    <dimen name="corner_small">4dp</dimen>
+    <dimen name="corner_regular">6dp</dimen>
+    <dimen name="corner_large">8dp</dimen>
+    <dimen name="corner_huge">10dp</dimen>
+
+    <dimen name="font_tiny">9sp</dimen>
+    <dimen name="font_small">11sp</dimen>
+    <dimen name="font_regular">13sp</dimen>
+    <dimen name="font_large">15sp</dimen>
+    <dimen name="font_huge">17sp</dimen>
+
+</resources>

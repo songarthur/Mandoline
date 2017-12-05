@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/colorPrimaryDark"
+        tools:layout_height="450dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cover_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/spacing_regular"
+            app:cardCornerRadius="@dimen/corner_regular"
+            app:cardElevation="@dimen/elevation_high"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="false"
+            app:cardBackgroundColor="@null"
+            app:layout_constraintBottom_toTopOf="@id/track_title"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_album"
+                android:background="@color/colorPrimary"/>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/track_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textColor="@color/font_light"
+            android:textSize="@dimen/font_huge"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/track_album"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cover_frame"
+            tools:text="You Know I'm No Good" />
+
+        <TextView
+            android:id="@+id/track_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textColor="@color/font_light_2"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/track_artist"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_title"
+            tools:text="Back to black (Deluxe)" />
+
+        <TextView
+            android:id="@+id/track_artist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:gravity="top|center_horizontal"
+            android:maxLines="1"
+            android:textColor="@color/font_light_2"
+            android:textSize="@dimen/font_regular"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@id/padding_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_album"
+            tools:text="Amy Winehouse" />
+
+        <View
+            android:id="@+id/padding_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_artist" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="200"
+    android:exitFadeDuration="200">
+
+    <item
+        android:drawable="@drawable/ico_album_active_24dp"
+        android:state_selected="true"/>
+
+    <item
+        android:drawable="@drawable/ico_album_inactive_24dp"
+        android:state_selected="false"/>
+
+    <item
+        android:drawable="@drawable/ico_album_inactive_24dp"/>
+
+</selector>

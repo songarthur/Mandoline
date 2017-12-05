@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="200"
+    android:exitFadeDuration="200">
+
+    <item
+        android:drawable="@drawable/ico_repeat_active_alt"
+        android:state_selected="true"
+        android:state_activated="true"/>
+
+    <item
+        android:drawable="@drawable/ico_repeat_active"
+        android:state_selected="false"
+        android:state_activated="true"/>
+
+    <item
+        android:drawable="@drawable/ico_repeat_inactive"
+        android:state_activated="false"/>
+
+</selector>
