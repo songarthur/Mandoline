@@ -15,6 +15,10 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * Utility class used to bind a context to the {@link PlayerService}.
+ * Notifies the listener the service is available only after the service finishes its initialization.
+ */
 public class PlayerServiceBindingDelegate
 {
     private static final String TAG = PlayerServiceBindingDelegate.class.getSimpleName();
@@ -32,6 +36,9 @@ public class PlayerServiceBindingDelegate
         this.serviceConnectionListener = new ServiceConnectionListener();
     }
 
+    /**
+     * Bind to the service.
+     */
     public final void bind()
     {
         Log.d(TAG, "Starting and binding to PlayerService");
@@ -41,6 +48,9 @@ public class PlayerServiceBindingDelegate
         context.bindService(intent, serviceConnectionListener, 0);
     }
 
+    /**
+     * Unbind from the service.
+     */
     public final void unbind()
     {
         Log.d(TAG, "Unbind from PlayerService");
@@ -51,6 +61,12 @@ public class PlayerServiceBindingDelegate
         }
     }
 
+    /**
+     * Returns the service if bound.
+     * The service is invalid before onPlayerServiceAvailable has been called
+     *
+     * @return
+     */
     public @Nullable PlayerService getService()
     {
         return service;

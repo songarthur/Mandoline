@@ -15,6 +15,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to persist and restore a player's state using {@link SharedPreferences}.
+ */
 public class PlaybackStateSaver
 {
     private static final String TAG = PlaybackStateSaver.class.getSimpleName();
@@ -36,6 +39,9 @@ public class PlaybackStateSaver
         this.context = context;
     }
 
+    /**
+     * Clears all player state files.
+     */
     public void clear()
     {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE).edit();
@@ -43,6 +49,15 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves the state of a playlist queue.
+     *
+     * @param playlist
+     * @param shuffledPlaylist
+     * @param playlistPosition
+     * @param useShuffle
+     * @param isLooping
+     */
     public void savePlaylistSettings(@NonNull List<Track> playlist,
                                      @NonNull List<Track> shuffledPlaylist,
                                      int playlistPosition,
@@ -72,6 +87,11 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves a playlist queue looping state.
+     *
+     * @param isLooping
+     */
     public void savePlaylistIsLooping(boolean isLooping)
     {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE).edit();
@@ -79,6 +99,11 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves the playlist's current position.
+     *
+     * @param playlistPosition
+     */
     public void savePlaylistPosition(int playlistPosition)
     {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE).edit();
@@ -86,6 +111,12 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves the playlist as being shuffled.
+     *
+     * @param shuffledPlaylist
+     * @param playlistPosition
+     */
     public void savePlaylistShuffledState(@NonNull List<Track> shuffledPlaylist, int playlistPosition)
     {
         List<Long> indexesShuffled = new ArrayList<>(shuffledPlaylist.size());
@@ -103,6 +134,11 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves the playlist as being not shuffled.
+     *
+     * @param playlistPosition
+     */
     public void savePlaylistNotShuffledState(int playlistPosition)
     {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE).edit();
@@ -111,6 +147,11 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Saves the current playback position.
+     *
+     * @param positionInMs
+     */
     public void savePlaybackPosition(int positionInMs)
     {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE).edit();
@@ -118,6 +159,12 @@ public class PlaybackStateSaver
         editor.apply();
     }
 
+    /**
+     * Restores a playlist queue.
+     *
+     * @param playlist
+     * @param library
+     */
     public void restorePlaylistSettings(@NonNull PlaylistQueue playlist, @NonNull MediaLibrary library)
     {
         SharedPreferences sp = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE);
@@ -146,6 +193,11 @@ public class PlaybackStateSaver
         playlist.restoreState(p, pShuffled, position, useShuffle, isLooping);
     }
 
+    /**
+     * Restore the playback position of a player
+     *
+     * @param player
+     */
     public void restorePlaybackPosition(@NonNull PlayerInterface player)
     {
         SharedPreferences sp = context.getSharedPreferences(PREFERENCE_FILE_PLAYBACK, Context.MODE_PRIVATE);

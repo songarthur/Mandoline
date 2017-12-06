@@ -1,8 +1,6 @@
 package com.songa.mandoline.core.player;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,19 +21,8 @@ import com.songa.mandoline.audio.entity.Track;
 import com.songa.mandoline.audio.player.PlaybackMode;
 import com.songa.mandoline.ui.drawable.SmoothColorDrawable;
 import com.songa.mandoline.util.TrackDurationUtil;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-
-import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleObserver;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class PlayerActivity
         extends     BaseActivity
@@ -54,7 +41,6 @@ public class PlayerActivity
 
     private boolean isTouchingSeekbar = false;
 
-    private PaletteObserver bgUpdater = null;
     private SmoothColorDrawable bgDrawable;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -345,90 +331,6 @@ public class PlayerActivity
     // BACKGROUND
     ///////////////////////////////////////////////////////////////////////////
 
-    private void updateBackgroundColor(@NonNull final Track track)
-    {
-        if (bgUpdater!=null) { bgUpdater.dispose(); }
 
-        if (track.getCoverArtUri()!=null) {
-
-            bgUpdater = new PaletteObserver(bgDrawable);
-
-            Single.create(new PaletteGenerator(this, track))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(bgUpdater);
-
-        } else {
-            bgDrawable.setDefaultColor();
-        }
-    }
-
-    private static class PaletteGenerator implements SingleOnSubscribe<Palette>
-    {
-        private final @NonNull Context context;
-        private final @NonNull Track track;
-
-        public PaletteGenerator(@NonNull Context context, @NonNull Track track)
-        {
-            this.context = context;
-            this.track = track;
-        }
-
-        @Override
-        public void subscribe(SingleEmitter<Palette> e) throws Exception
-        {
-            if (track.getCoverArtUri()==null || track.getCoverArtUri().isEmpty()) {
-                e.onSuccess(null);
-            }
-
-            try {
-                File coverFile = new File(track.getCoverArtUri());
-                Bitmap bmp = Picasso.with(context).load(coverFile).get();
-                e.onSuccess(Palette.from(bmp).generate());
-
-            } catch (IOException err) {
-                e.onSuccess(null);
-            }
-        }
-    }
-
-    private static class PaletteObserver implements SingleObserver<Palette>
-    {
-        private @Nullable Disposable disposable = null;
-        private @NonNull SmoothColorDrawable drawable;
-
-        public PaletteObserver(@NonNull SmoothColorDrawable drawable)
-        {
-            this.drawable = drawable;
-        }
-
-        @Override
-        public void onSubscribe(Disposable d)
-        {
-            disposable = d;
-        }
-
-        @Override
-        public void onError(Throwable e)
-        {
-            drawable.setDefaultColor();
-        }
-
-        @Override
-        public void onSuccess(Palette palette)
-        {
-            int newBg = palette!=null ? palette.getDarkMutedColor(-1) : -1;
-            if (newBg!=-1) {
-                drawable.setNewColor(newBg);
-            } else {
-                drawable.setDefaultColor();
-            }
-        }
-
-        public void dispose()
-        {
-            if (disposable!=null) { disposable.dispose(); }
-        }
-    }
 
 }

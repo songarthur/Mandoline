@@ -13,19 +13,29 @@ import com.songa.mandoline.databinding.UiItemAlbumBinding;
 import com.songa.mandoline.audio.entity.Album;
 import com.songa.mandoline.ui.listener.ViewholderListener;
 
+/**
+ * Viewholder used to display an Album.
+ */
 public class AlbumViewholder extends RecyclerView.ViewHolder
 {
     private final @NonNull UiItemAlbumBinding binding;
+
     private @Nullable ViewholderListener<AlbumViewholder> listener = null;
 
     private @Nullable Album album = null;
 
-    public AlbumViewholder(@NonNull UiItemAlbumBinding binding)
+    private AlbumViewholder(@NonNull UiItemAlbumBinding binding)
     {
         super(binding.getRoot());
         this.binding = binding;
     }
 
+    /**
+     * Returns a viewholder already attached to its inflated view.
+     *
+     * @param parent
+     * @return
+     */
     public static @NonNull AlbumViewholder inflate(@NonNull ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -44,6 +54,10 @@ public class AlbumViewholder extends RecyclerView.ViewHolder
         return vh;
     }
 
+    /**
+     * Displays the given album in this viewholder.
+     * @param album
+     */
     public void setup(@Nullable Album album)
     {
         this.album = album;
@@ -60,21 +74,16 @@ public class AlbumViewholder extends RecyclerView.ViewHolder
                     .error(R.drawable.placeholder_album)
                     .localArtworkFallback(album.getCoverArtUri())
                     .into(binding.cover);
-
-                /*
-            } else if (album.getCoverArtUri()!=null && !album.getCoverArtUri().isEmpty()) {
-                Picasso.with(binding.getRoot().getContext())
-                        .load(new File(album.getCoverArtUri()))
-                        .placeholder(R.drawable.placeholder_album)
-                        .error(R.drawable.placeholder_album)
-                        .into(binding.cover);
-
-            } else {
-                binding.cover.setImageResource(R.drawable.placeholder_album);
-            }*/
         }
     }
 
+    /**
+     * Utility function. Binds the given viewholder with the given album if and only if it is an
+     * instance of AlbumViewholder.
+     *
+     * @param holder
+     * @param album
+     */
     public static void bind(@NonNull RecyclerView.ViewHolder holder, @Nullable Album album)
     {
         if (holder instanceof AlbumViewholder) {
@@ -83,12 +92,23 @@ public class AlbumViewholder extends RecyclerView.ViewHolder
         }
     }
 
+    /**
+     * Sets up a click listener for this viewholder.
+     *
+     * @param listener
+     * @return
+     */
     public AlbumViewholder clickListener(@Nullable ViewholderListener<AlbumViewholder> listener)
     {
         this.listener = listener;
         return this;
     }
 
+    /**
+     * Returns the album bound to this viewholder.
+     *
+     * @return
+     */
     @Nullable
     public Album getAlbum() {
         return album;

@@ -21,6 +21,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
+/**
+ * Class managing the music played by the app. <br>
+ * Manages the playlist queue through {@link PlaylistQueue}, regularly saves its state through
+ * {@link PlaybackStateSaver}, notifies observers of changes in its own state (playlist change,
+ * pause, skipping next etc...) through {@link PlayerStateNotifier} and of course actually plays
+ * the music through {@link MediaPlayer}.
+ */
 public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionListener
 {
     private static final String TAG = PlayerManager.class.getSimpleName();
@@ -185,6 +192,9 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
         }
     }
 
+    /**
+     * Releases all resources, stops playing music.
+     */
     public void release()
     {
         if (player!=null) {
@@ -200,6 +210,13 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
     // LOADING FUNCTIONS
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Loads and tries to play the given uri.
+     *
+     * @param mediaUri the song's uri
+     * @param play to start playing immediately
+     * @return true if the uri has been successfully loaded
+     */
     private boolean loadMedia(@NonNull String mediaUri, boolean play)
     {
         if (player!=null) {
@@ -233,6 +250,13 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
         }
     }
 
+    /**
+     * Loads and plays the given track.
+     *
+     * @param track the track to play
+     * @param play to start playing immediately
+     * @return true if the track has been loaded successfully
+     */
     private boolean loadTrack(@Nullable Track track, boolean play)
     {
         if (track==null) {
@@ -253,6 +277,10 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
     // PLAYER LISTENERS
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Called when a track reaches the end.
+     * @param mp
+     */
     @Override
     public void onCompletion(MediaPlayer mp)
     {
@@ -311,6 +339,9 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
 
     private @Nullable Disposable playbackPositionReporter = null;
 
+    /**
+     * Starts a tasks that regularly notifies the current playback position.
+     */
     private void startReportingPlaybackPosition()
     {
         if (playbackPositionReporter!=null && !playbackPositionReporter.isDisposed()) { return; }
@@ -336,6 +367,11 @@ public class PlayerManager implements PlayerInterface, MediaPlayer.OnCompletionL
                 });
     }
 
+    /**
+     * Stops reporting the playback position.
+     *
+     * @param isStopped
+     */
     private void stopReportingPlaybackPosition(boolean isStopped)
     {
         if (playbackPositionReporter!=null) {

@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import com.songa.mandoline.databinding.UiItemTrackBinding;
 import com.songa.mandoline.audio.entity.Track;
 import com.songa.mandoline.ui.listener.ViewholderListener;
+import com.songa.mandoline.util.TrackDurationUtil;
 
+/**
+ * Viewholder used to display a track. Simple version.
+ */
 public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
     private final UiItemTrackBinding binding;
@@ -18,12 +22,18 @@ public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnC
 
     private @Nullable Track track = null;
 
-    public TrackViewholder(@NonNull final UiItemTrackBinding binding)
+    private TrackViewholder(@NonNull final UiItemTrackBinding binding)
     {
         super(binding.getRoot());
         this.binding = binding;
     }
 
+    /**
+     * Returns a viewholder already attached to its inflated view.
+     *
+     * @param parent
+     * @return
+     */
     public static @NonNull TrackViewholder inflate(@NonNull ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -35,6 +45,13 @@ public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnC
         return vh;
     }
 
+    /**
+     * Utility function. Binds the given viewholder with the given track if and only if it is an
+     * instance of {@link TrackViewholder}.
+     *
+     * @param holder
+     * @param track
+     */
     public static void bind(@NonNull RecyclerView.ViewHolder holder, @Nullable Track track)
     {
         if (holder instanceof TrackViewholder) {
@@ -43,19 +60,24 @@ public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnC
         }
     }
 
+    /**
+     * Binds the given track to this viewholder.
+     *
+     * @param track
+     */
     public void setup(@Nullable Track track)
     {
         this.track = track;
 
         if (track==null) {
+            binding.trackNumber.setText("");
+            binding.trackTitle.setText("");
+            binding.trackDuration.setText("");
 
         } else {
 
-
             String trackNo = track.getTrackNumber()>0 ? Long.toString(track.getTrackNumber()%100) : "";
-            String duration = track.getTrackDuration()>0 ?
-                    String.format("%d:%02d", track.getTrackDuration()/60000, (track.getTrackDuration()/1000)%60)
-                    : "";
+            String duration = TrackDurationUtil.getDurationString(track);
 
             binding.trackNumber.setText(trackNo);
             binding.trackTitle.setText(track.getTrackTitle());
@@ -63,6 +85,12 @@ public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnC
         }
     }
 
+    /**
+     * Sets a click listener for this viewholder.
+     *
+     * @param listener
+     * @return
+     */
     public TrackViewholder clickListener(@Nullable ViewholderListener<TrackViewholder> listener)
     {
         this.listener = listener;
@@ -77,6 +105,11 @@ public class TrackViewholder extends RecyclerView.ViewHolder implements View.OnC
         }
     }
 
+    /**
+     * Returns the track bound to this viewholder.
+     *
+     * @return
+     */
     @Nullable
     public Track getTrack() {
         return track;

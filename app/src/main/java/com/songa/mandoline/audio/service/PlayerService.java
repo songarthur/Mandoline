@@ -38,6 +38,19 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
+/**
+ * Service used to play music on the background.<br><br>
+ *
+ * Do not bind to this service directly, use instead {@link com.songa.mandoline.audio.service.binding.PlayerServiceBindingDelegate}.<br>
+ *
+ * Service binds take place in the main thread, but the service needs MediaLibrary to restore
+ * its state. So instead of blocking the main thread in onCreate waiting for MediaLibrary we exit
+ * immediately from onCreate and the initialization is done asynchronously. When the initialization is
+ * finished we notify it through the initialization watcher.<br>
+ *
+ * Therefore be careful when binding manually to this service, you might receive a service that is
+ * not initialized yet.
+ */
 public class PlayerService extends Service implements AudioManager.OnAudioFocusChangeListener
 {
     private static final String TAG = PlayerService.class.getSimpleName();
@@ -131,6 +144,10 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         }
     }
 
+    /**
+     * Called when the player is playing.
+     * @param event
+     */
     private void onPlayEvent(@NonNull PlaybackStateEvent event)
     {
         Track track = playerInteractor.getCurrentTrack();
@@ -157,6 +174,11 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         }
     }
 
+    /**
+     * Called when the player pauses.
+     *
+     * @param event
+     */
     private void onPauseEvent(@NonNull PlaybackStateEvent event)
     {
         playbackState = PlaybackStateCompat.STATE_PAUSED;
@@ -178,6 +200,13 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         }
     }
 
+    /**
+     * Builds the playback state.
+     *
+     * @param state
+     * @param position
+     * @return
+     */
     private PlaybackStateCompat buildPlaybackState(int state, int position)
     {
         return new PlaybackStateCompat.Builder()
@@ -191,6 +220,13 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
             .build();
     }
 
+    /**
+     * Builds a "now playing" notification for a given track.
+     * @param track
+     * @param cover
+     * @param isPlaying
+     * @return
+     */
     private Notification buildNotification(@NonNull Track track, @Nullable Bitmap cover, boolean isPlaying)
     {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(PlayerService.this);
@@ -251,7 +287,12 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         return builder.build();
     }
 
-
+    /**
+     * Restore the service's state.
+     * Restore the player's playlist, state, playback position, current track etc...
+     *
+     * @param library
+     */
     private void restoreServiceState(@NonNull MediaLibrary library)
     {
         Log.d(TAG, "Restoring service state");
@@ -289,11 +330,22 @@ public class PlayerService extends Service implements AudioManager.OnAudioFocusC
         initializationWatcher.onNext(true);
     }
 
+    /**
+     * Returns an observable notifying whether or not the service has been initialized.
+     * Backed by a {@link BehaviorSubject}, will always return at least once.
+     *
+     * @return
+     */
     public Observable<Boolean> getInitializationWatcher()
     {
         return initializationWatcher;
     }
 
+    /**
+     * Returns the player tied to this service.
+     *
+     * @return
+     */
     public PlayerInterface getPlayer() {
         return playerInteractor;
     }

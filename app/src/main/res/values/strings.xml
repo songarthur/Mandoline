@@ -2,7 +2,7 @@
 
     <string name="app_name">Mandoline</string>
 
-    <string name="app_service_playback">Service used to play music</string>
+    <string name="app_service_playback">Background service used to play music</string>
 
     <string name="activity_permission_title">Authorize access to folders ?</string>
     <string name="activity_permission_subtitle">Mandoline needs access to your folder in order to discover and play the music stored in your phone</string>

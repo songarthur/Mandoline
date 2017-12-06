@@ -21,28 +21,42 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * LastFm API base class. Responsible for initializing resources necessary for it to work as an
+ * {@link com.songa.mandoline.artwork.ArtworkProvider}.<br>
+ *
+ * Initializes the HTTP client, the API, and the image loader.
+ */
 public class LastFm
 {
     private static final String LAST_FM_API_ROOT = "https://ws.audioscrobbler.com/";
     private static final String LAST_FM_API_KEY = "1075not5629a6016real293api4107key7395";
 
-    private static final int DISK_CACHE_SIZE = 128 * 1024 * 1024;
+    private static final int DISK_CACHE_SIZE = 128 * 1024 * 1024; // 128mb
 
     private static OkHttpClient lastFmHttpClient = null;
     private static LastFmApi lastFmApi = null;
     private static Picasso picasso = null;
 
+    /**
+     * Initializes all the resources used by {@link LastFmArtworkProvider}
+     * @param context
+     */
     public static void init(@NonNull Context context)
     {
         lastFmHttpClient = buildHttpClient(context);
-
         lastFmApi = buildApi(lastFmHttpClient);
-
-        picasso = new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(lastFmHttpClient))
-                .build();
+        picasso = buildImageLoader(context, lastFmHttpClient);
     }
 
+    /**
+     * Builds an http client for the LastFM API.
+     * The client will cache data for 30 days, and will not make a network call if it can avoid it.
+     * The client also automatically sets up the api key for each request.
+     *
+     * @param context
+     * @return
+     */
     private static OkHttpClient buildHttpClient(@NonNull Context context)
     {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -99,6 +113,12 @@ public class LastFm
         return httpClient.build();
     }
 
+    /**
+     * Builds a LastFM API from Retrofit.
+     *
+     * @param httpClient
+     * @return
+     */
     private static LastFmApi buildApi(@NonNull OkHttpClient httpClient)
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -111,16 +131,39 @@ public class LastFm
         return retrofit.create(LastFmApi.class);
     }
 
+    /**
+     * Builds an ImageLoader from Picasso.
+     *
+     * @param context
+     * @param client
+     * @return
+     */
+    private static Picasso buildImageLoader(@NonNull Context context, @NonNull OkHttpClient client)
+    {
+        return new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+    }
+
+    /**
+     * @return Return the LastFM HTTP client.
+     */
     public static OkHttpClient getHttpClient()
     {
         return lastFmHttpClient;
     }
 
+    /**
+     * @return Returns the LastFM API.
+     */
     public static LastFmApi getApi()
     {
         return lastFmApi;
     }
 
+    /**
+     * @return Returns the LastFM Image Loader.
+     */
     public static Picasso getImageLoader()
     {
         return picasso;

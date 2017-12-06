@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
+/**
+ * Recycler decoration that adds spacing between items.
+ */
 public class GridSpacingDecoration extends RecyclerView.ItemDecoration
 {
     private int spacing;
@@ -21,26 +24,6 @@ public class GridSpacingDecoration extends RecyclerView.ItemDecoration
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
     {
-        /*
-        if (parent.getLayoutManager()!=null && parent.getLayoutManager() instanceof GridLayoutManager) {
-
-            GridLayoutManager lm = (GridLayoutManager) parent.getLayoutManager();
-            int span = lm.getSpanCount();
-            int pos = parent.getChildLayoutPosition(view);
-            int rowPos = pos%span;
-
-            outRect.top = pos<span ? spacing : 0;
-            outRect.bottom = spacing;
-            outRect.left = rowPos==0 ? spacing : halfSpacing;
-            outRect.right = rowPos==(span-1) ? spacing : halfSpacing;
-
-        } else {
-            outRect.top = halfSpacing;
-            outRect.bottom = halfSpacing;
-            outRect.left = halfSpacing;
-            outRect.right = halfSpacing;
-        }*/
-
         outRect.top = halfSpacing;
         outRect.bottom = halfSpacing;
         outRect.left = halfSpacing;

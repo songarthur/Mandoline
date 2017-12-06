@@ -14,6 +14,16 @@ import com.songa.mandoline.audio.service.binding.PlayerServiceBindingDelegate;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
+/**
+ * Base fragment class. <br>
+ *
+ * Automatically binds/unbinds to the music playing service if the permissions allow it. <br>
+ *
+ * If the {@link MediaLibrary} is not available, will request for it and call onMediaLibraryInitialized
+ * when available, at the earliest after onViewCreated. <br>
+ *
+ * If the {@link MediaLibrary} is already available, will not call onMediaLibraryInitialized.<br>
+ */
 public abstract class BaseFragment extends Fragment implements PlayerServiceBindingListener
 {
     private @Nullable PlayerServiceBindingDelegate playerBindingDelegate = null;
@@ -68,16 +78,28 @@ public abstract class BaseFragment extends Fragment implements PlayerServiceBind
         }
     }
 
+    /**
+     * Called when the player service become available.
+     */
     @Override
     public void onPlayerServiceAvailable() {}
 
+    /**
+     * Called only when the Media Library becomes available after this fragment reaches onCreate.
+     */
     public void onMediaLibraryInitialized() {}
 
+    /**
+     * @return Returns the player service if available.
+     */
     public final @Nullable PlayerService getPlayerService()
     {
         return playerBindingDelegate !=null ? playerBindingDelegate.getService() : null;
     }
 
+    /**
+     * @return Return the media library if available.
+     */
     public final @Nullable MediaLibrary getMediaLibrary()
     {
         return mediaLibrary;

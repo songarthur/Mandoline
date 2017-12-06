@@ -9,6 +9,10 @@ import com.songa.mandoline.audio.entity.Track;
 
 import java.util.List;
 
+/**
+ * Class used as to interact with an actual music player.
+ * Allows us to serialize all calls and events sent to the player into a single separate thread.
+ */
 public class PlayerInteractor implements PlayerInterface
 {
     private static final String TAG = PlayerInteractor.class.getSimpleName();
@@ -22,13 +26,6 @@ public class PlayerInteractor implements PlayerInterface
         this.handler = handler;
         this.player = mediaPlayer;
     }
-
-    /*
-    public void release()
-    {
-        thread.quitSafely();
-    }
-    */
 
     @Override
     public void setPlaylist(@NonNull final List<Track> tracks, final int startingPosition, final boolean playNow)

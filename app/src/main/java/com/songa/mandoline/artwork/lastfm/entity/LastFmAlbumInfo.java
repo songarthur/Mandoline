@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Album Info from LastFM. <br>
+ * See https://www.last.fm/api/show/album.getInfo
+ */
 public class LastFmAlbumInfo
 {
     @SerializedName("mbid")

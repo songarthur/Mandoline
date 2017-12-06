@@ -12,6 +12,9 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.subjects.ReplaySubject;
 
+/**
+ * Class used to notify to observers of the state of the player.
+ */
 public class PlayerStateNotifier
 {
     private static final String TAG = PlaybackStateCompat.class.getSimpleName();
