@@ -24,6 +24,14 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * Singleton class.<br><br>
+ *
+ * Media library that stores and caches all the data extracted from {@link android.provider.MediaStore}
+ * by {@link MediaScanner}.<br>
+ *
+ * Use this class to access quickly to the device's current music library.
+ */
 public class MediaLibrary
 {
     private static final String TAG = MediaLibrary.class.getSimpleName();
@@ -43,7 +51,13 @@ public class MediaLibrary
     private final @NonNull List<Artist> allArtists = new ArrayList<>();
     private final @NonNull List<Album> allAlbums = new ArrayList<>();
 
-
+    /**
+     * Returns an observable that emits the library instance when it is ready.
+     * The library is generated asynchronously.
+     *
+     * @param context
+     * @return
+     */
     public static Single<MediaLibrary> getLibraryProvider(@NonNull final Context context)
     {
         return Single
@@ -54,11 +68,21 @@ public class MediaLibrary
                 .subscribeOn(Schedulers.io());
     }
 
+    /**
+     * Tries to get the instance synchronously. If not available return null immediately.
+     * @return
+     */
     public static @Nullable MediaLibrary tryToGetInstance()
     {
         return instance;
     }
 
+    /**
+     * Returns a singleton instance of MediaLibrary. Generates a new one if necessary.
+     *
+     * @param context
+     * @return
+     */
     @WorkerThread
     private static synchronized MediaLibrary getInstance(@NonNull Context context)
     {
@@ -67,6 +91,13 @@ public class MediaLibrary
 
     }
 
+    /**
+     * Generates a MediaLibrary instance and initializes it.
+     * Beware : IO and computation heavy
+     *
+     * @param context
+     * @return
+     */
     @WorkerThread
     private MediaLibrary(@NonNull Context context)
     {
@@ -74,6 +105,9 @@ public class MediaLibrary
         init();
     }
 
+    /**
+     * Initializes the library.
+     */
     private void init()
     {
         Log.d(TAG, "Initializing MediaLibrary");
@@ -155,11 +189,21 @@ public class MediaLibrary
     // ARTISTS
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Returns the list of all artists, ordered by name.
+     * @return
+     */
     public @NonNull List<Artist> allArtists()
     {
         return allArtists;
     }
 
+    /**
+     * Return the artist with the given id.
+     *
+     * @param artistId
+     * @return
+     */
     public @Nullable Artist artist(long artistId)
     {
         return artistCatalog.get(artistId);
@@ -169,11 +213,21 @@ public class MediaLibrary
     // ALBUMS
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Return the list of all albums, ordered by name.
+     * @return
+     */
     public @NonNull List<Album> allAlbums()
     {
         return allAlbums;
     }
 
+    /**
+     * Return all the albums for a given artist, ordered by title.
+     *
+     * @param artistId
+     * @return
+     */
     public @NonNull List<Album> albumsFromArtist(long artistId)
     {
         List<Album> result = new ArrayList<>();
@@ -188,6 +242,12 @@ public class MediaLibrary
         return result;
     }
 
+    /**
+     * Return the album with the given id.
+     *
+     * @param albumId
+     * @return
+     */
     public @Nullable Album album(long albumId)
     {
         return albumCatalog.get(albumId);
@@ -197,11 +257,21 @@ public class MediaLibrary
     // TRACKS
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Returns all songs stored on the device, ordered by name.
+     * @return
+     */
     public @NonNull List<Track> allTracks()
     {
         return allTracks;
     }
 
+    /**
+     * Returns all tracks from a given album, ordered by track number.
+     *
+     * @param albumId
+     * @return
+     */
     public @NonNull List<Track> tracksFromAlbum(long albumId)
     {
         List<Track> result = new ArrayList<>();
@@ -215,6 +285,12 @@ public class MediaLibrary
         return result;
     }
 
+    /**
+     * Returns all songs by a given artist, ordered by title.
+     *
+     * @param artistId
+     * @return
+     */
     public @NonNull List<Track> tracksFromArtist(long artistId)
     {
         List<Track> result = new ArrayList<>();
@@ -231,6 +307,12 @@ public class MediaLibrary
         return result;
     }
 
+    /**
+     * Return a list of tracks having the given ids.
+     *
+     * @param trackIds
+     * @return
+     */
     public @NonNull List<Track> tracksFromIdList(List<Long> trackIds)
     {
         List<Track> result = new ArrayList<>(trackIds.size());
@@ -245,6 +327,12 @@ public class MediaLibrary
         return result;
     }
 
+    /**
+     * Returns the track with the given id.
+     *
+     * @param trackId
+     * @return
+     */
     public @Nullable Track track(long trackId)
     {
         return trackCatalog.get(trackId);

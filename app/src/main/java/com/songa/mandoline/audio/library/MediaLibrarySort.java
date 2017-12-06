@@ -6,6 +6,9 @@ import com.songa.mandoline.audio.entity.Track;
 
 import java.util.Comparator;
 
+/**
+ * Comparators used to sort lists from the library.
+ */
 public class MediaLibrarySort
 {
     private MediaLibrarySort() {}

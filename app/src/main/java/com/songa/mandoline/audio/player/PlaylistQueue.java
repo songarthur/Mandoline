@@ -12,6 +12,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * A playlist queue.
+ * Stores all tracks in the playlist, keeps tracks of the current track, responsible for shuffling,
+ * loops the playlist if necessary.
+ */
 public class PlaylistQueue
 {
     private static final String TAG = PlaylistQueue.class.getSimpleName();
@@ -33,6 +38,11 @@ public class PlaylistQueue
         this.stateSaver = stateSaver;
     }
 
+    /**
+     * Sets the current playlist being played.
+     *
+     * @param playlist the playlist being played ordered
+     */
     public void setPlaylist(@NonNull List<Track> playlist)
     {
         this.playlist.clear();
@@ -47,12 +57,27 @@ public class PlaylistQueue
         saveState();
     }
 
+    /**
+     * Sets whether or not this playlist should loop.
+     *
+     * @param loopPlaylist
+     */
     public void setLoopPlaylist(boolean loopPlaylist)
     {
         this.loopPlaylist = loopPlaylist;
         stateSaver.savePlaylistIsLooping(loopPlaylist);
     }
 
+    /**
+     * Shuffles/unshuffles the playlist. <br>
+     * If set to false, will restore the playlist to its original state, when setPlaylist was last called.<br>
+     * If set to true, will shuffle the playlist or reshuffle it if it was already in a shuffled state,
+     * and will place the current track at the top of the playlist.
+     *
+     * Either way the current track does not change, the playlist position will change to conform to this.
+     *
+     * @param shuffle
+     */
     public void setShuffled(boolean shuffle)
     {
         Track currentTrack = getCurrentTrack();
@@ -122,6 +147,11 @@ public class PlaylistQueue
         }
     }
 
+    /**
+     * Moves the playlist to an arbitrary position.
+     *
+     * @param newPosition
+     */
     public void setPlaylistPosition(int newPosition)
     {
         if (newPosition<0 || newPosition>=currentPlaylist.size()) {
@@ -135,6 +165,11 @@ public class PlaylistQueue
         Log.v(TAG, "Set playlist position to : " + position);
     }
 
+    /**
+     * Skips to the next track.
+     *
+     * @return the next track, or null if there is no track next
+     */
     public @Nullable Track skipToNextTrack()
     {
         if (position>=currentPlaylist.size()-1) {
@@ -152,6 +187,11 @@ public class PlaylistQueue
         return currentPlaylist.get(position);
     }
 
+    /**
+     * Skips to the previous track.
+     *
+     * @return the previous track, or null if there is none
+     */
     public @Nullable Track skipToPreviousTrack()
     {
         if (position<=0) {
@@ -173,29 +213,51 @@ public class PlaylistQueue
     //
     ///////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * Return a copy of the current playlist.
+     *
+     * @return
+     */
     @NonNull
     public List<Track> getPlaylist()
     {
         return new ArrayList<>(currentPlaylist);
     }
 
+    /**
+     * Returns the position in the playlist of the current track.
+     *
+     * @return
+     */
     public int getPlaylistPosition()
     {
         return position;
     }
 
+    /**
+     * Returns the current track.
+     *
+     * @return
+     */
     public @Nullable Track getCurrentTrack()
     {
         if (position<0 || position>=currentPlaylist.size()) { return null; }
         return currentPlaylist.get(position);
     }
 
+    /**
+     * Returns true if the playlist is looping.
+     * @return
+     */
     public boolean isLoopingPlaylist()
     {
         return loopPlaylist;
     }
 
+    /**
+     * Returns true if the playlist is shuffling.
+     * @return
+     */
     public boolean isUsingShuffledPlaylist()
     {
         return currentPlaylist == shuffledPlaylist;
@@ -205,6 +267,9 @@ public class PlaylistQueue
     // STATE PERSISTENCE
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Saves the state of the queue.
+     */
     void saveState()
     {
         stateSaver.savePlaylistSettings(
@@ -215,6 +280,15 @@ public class PlaylistQueue
                 isLoopingPlaylist());
     }
 
+    /**
+     * Restores the playlist to the given state.
+     *
+     * @param playlist
+     * @param shuffledPlaylist
+     * @param playlistPosition
+     * @param useShuffle
+     * @param isLooping
+     */
     public void restoreState(@NonNull List<Track> playlist,
                              @NonNull List<Track> shuffledPlaylist,
                              int playlistPosition,

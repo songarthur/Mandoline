@@ -8,6 +8,10 @@ import com.songa.mandoline.audio.entity.Album;
 import com.songa.mandoline.audio.entity.Artist;
 import com.songa.mandoline.audio.entity.Track;
 
+/**
+ * Class used to convert data extracted from the {@link android.provider.MediaStore} and delivered
+ * by the {@link MediaScanner}.
+ */
 public class MediaMetadata
 {
     public static final String METADATA_KEY_TITLE = "android.media.metadata.TITLE";
@@ -39,10 +43,18 @@ public class MediaMetadata
     public static final String METADATA_KEY_MEDIA_MIME_TYPE = "android.media.metadata.MEDIA_MIME_TYPE";
     public static final String METADATA_KEY_MEDIA_URI = "android.media.metadata.MEDIA_URI";
 
+    private MediaMetadata() {}
+
     ///////////////////////////////////////////////////////////////////////////
     //
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Extracts a tracks from metadata.
+     *
+     * @param metadata
+     * @return The extracted track or null if the metadata are not valid
+     */
     public static @Nullable Track trackFromMetadata(@NonNull Bundle metadata)
     {
         long trackId = metadata.getLong(MediaMetadata.METADATA_KEY_TITLE_ID,-1);
@@ -70,6 +82,12 @@ public class MediaMetadata
                 trackUri);
     }
 
+    /**
+     * Extracts an artist from metadata info.
+     *
+     * @param metadata
+     * @return the extracted artists or null if the metadata is not valid
+     */
     public static @Nullable Artist artistFromMetadata(@NonNull Bundle metadata)
     {
         long artistId = metadata.getLong(MediaMetadata.METADATA_KEY_ARTIST_ID, -1);
@@ -80,6 +98,12 @@ public class MediaMetadata
         return new Artist(artistId, artistName);
     }
 
+    /**
+     * Extracts an album from metadata info.
+     *
+     * @param meta
+     * @return the extracted album or null if the metadata is not valid
+     */
     public static @Nullable Album albumFromMetadata(@NonNull Bundle meta)
     {
         long albumId = meta.getLong(MediaMetadata.METADATA_KEY_ALBUM_ID, -1);
@@ -96,6 +120,12 @@ public class MediaMetadata
     //
     ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Converts a track into a metadata bundle.
+     *
+     * @param track
+     * @return
+     */
     public static Bundle extractMetadata(@NonNull Track track)
     {
         Bundle metadata = new Bundle();
@@ -114,6 +144,12 @@ public class MediaMetadata
         return metadata;
     }
 
+    /**
+     * Converts an artist into a metadata bundle.
+     *
+     * @param artist
+     * @return
+     */
     public static Bundle extractMetadata(@NonNull Artist artist)
     {
         Bundle metadata = new Bundle();
@@ -123,6 +159,12 @@ public class MediaMetadata
         return metadata;
     }
 
+    /**
+     * Converts an album into a metadata bundle.
+     *
+     * @param album
+     * @return
+     */
     public static Bundle extractMetadata(@NonNull Album album)
     {
         Bundle metadata = new Bundle();

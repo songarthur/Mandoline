@@ -6,6 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.graphics.Palette;
 import android.widget.ImageView;
 
+/**
+ * Executes a single artwork load request.
+ * The class will first ask the provider to find an artwork for the given request. If found it will load
+ * it into the target imageView, or else it will try to fallback to a local artwork.
+ */
 public class ArtworkJob implements Runnable, Palette.PaletteAsyncListener
 {
     private final @NonNull ArtworkRequest request;

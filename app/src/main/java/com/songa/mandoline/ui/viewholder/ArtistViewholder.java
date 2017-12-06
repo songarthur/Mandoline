@@ -13,6 +13,9 @@ import com.songa.mandoline.databinding.UiItemArtistBinding;
 import com.songa.mandoline.audio.entity.Artist;
 import com.songa.mandoline.ui.listener.ViewholderListener;
 
+/**
+ * Viewholder used to display an Artist.
+ */
 public class ArtistViewholder extends RecyclerView.ViewHolder
 {
     private final @NonNull UiItemArtistBinding binding;
@@ -20,12 +23,18 @@ public class ArtistViewholder extends RecyclerView.ViewHolder
 
     private @Nullable Artist artist = null;
 
-    public ArtistViewholder(@NonNull UiItemArtistBinding binding)
+    private ArtistViewholder(@NonNull UiItemArtistBinding binding)
     {
         super(binding.getRoot());
         this.binding = binding;
     }
 
+    /**
+     * Returns a viewholder already attached to its inflated view.
+     *
+     * @param parent
+     * @return
+     */
     public static @NonNull ArtistViewholder inflate(@NonNull ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -44,6 +53,11 @@ public class ArtistViewholder extends RecyclerView.ViewHolder
         return vh;
     }
 
+    /**
+     * Binds the given artist to this viewholder.
+     *
+     * @param artist
+     */
     public void setup(@Nullable Artist artist)
     {
         this.artist = artist;
@@ -61,12 +75,22 @@ public class ArtistViewholder extends RecyclerView.ViewHolder
         }
     }
 
+    /**
+     * Sets a click listener for this viewholder.
+     * @param listener
+     * @return
+     */
     public ArtistViewholder clickListener(@Nullable ViewholderListener<ArtistViewholder> listener)
     {
         this.listener = listener;
         return this;
     }
 
+    /**
+     * Returns the artist bound to this viewholder.
+     *
+     * @return
+     */
     @Nullable
     public Artist getArtist()
     {

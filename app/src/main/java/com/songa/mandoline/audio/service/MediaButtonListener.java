@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
+/**
+ * Listener for media button events.
+ */
 public class MediaButtonListener extends MediaSessionCompat.Callback
 {
     private static final String TAG = MediaButtonListener.class.getSimpleName();
@@ -18,36 +21,37 @@ public class MediaButtonListener extends MediaSessionCompat.Callback
     }
 
     @Override
-    public void onCommand(String command, Bundle extras, ResultReceiver cb) {
+    public void onCommand(String command, Bundle extras, ResultReceiver cb)
+    {
         super.onCommand(command, extras, cb);
-        Log.w(TAG, "RECEIVED command " + command);
+        Log.v(TAG, "RECEIVED command " + command);
     }
 
     @Override
     public void onPlay()
     {
-        Log.i(TAG, "Received PLAY command");
+        Log.d(TAG, "Received PLAY command");
         service.getPlayer().play();
     }
 
     @Override
     public void onPause()
     {
-        Log.i(TAG, "Received PAUSE command");
+        Log.d(TAG, "Received PAUSE command");
         service.getPlayer().pause();
     }
 
     @Override
     public void onSkipToNext()
     {
-        Log.i(TAG, "Received SKIP NEXT command");
+        Log.d(TAG, "Received SKIP NEXT command");
         service.getPlayer().skipToNext();
     }
 
     @Override
     public void onSkipToPrevious()
     {
-        Log.i(TAG, "Received SKIP PREVIOUS command");
+        Log.d(TAG, "Received SKIP PREVIOUS command");
         service.getPlayer().skipToPrevious();
     }
 }

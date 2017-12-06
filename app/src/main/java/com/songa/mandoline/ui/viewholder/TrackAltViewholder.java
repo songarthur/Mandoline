@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import com.songa.mandoline.databinding.UiItemTrackAltBinding;
 import com.songa.mandoline.audio.entity.Track;
 import com.songa.mandoline.ui.listener.ViewholderListener;
+import com.songa.mandoline.util.TrackDurationUtil;
 
+/**
+ * Alternative viewholder to display a track. Features a more detailed view (duration and track no).
+ */
 public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
     private final UiItemTrackAltBinding binding;
@@ -18,12 +22,18 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
 
     private @Nullable Track track = null;
 
-    public TrackAltViewholder(@NonNull final UiItemTrackAltBinding binding)
+    private TrackAltViewholder(@NonNull final UiItemTrackAltBinding binding)
     {
         super(binding.getRoot());
         this.binding = binding;
     }
 
+    /**
+     * Returns a viewholder already attached to its inflated view.
+     *
+     * @param parent
+     * @return
+     */
     public static @NonNull TrackAltViewholder inflate(@NonNull ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -35,6 +45,13 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
         return vh;
     }
 
+    /**
+     * Utility function. Binds the given viewholder with the given track if and only if it is an
+     * instance of {@link TrackAltViewholder}.
+     *
+     * @param holder
+     * @param track
+     */
     public static void bind(@NonNull RecyclerView.ViewHolder holder, @Nullable Track track)
     {
         if (holder instanceof TrackAltViewholder) {
@@ -43,6 +60,11 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
         }
     }
 
+    /**
+     * Binds the given track to this viewholder.
+     *
+     * @param track
+     */
     public void setup(@Nullable Track track)
     {
         this.track = track;
@@ -54,9 +76,7 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
 
         } else {
 
-            String duration = track.getTrackDuration()>0 ?
-                    String.format("%d:%02d", track.getTrackDuration()/60000, (track.getTrackDuration()/1000)%60)
-                    : "";
+            String duration = TrackDurationUtil.getDurationString(track);
 
             String subtitle = track.getArtistName()!=null ? track.getArtistName() : "";
             if (track.getAlbumName()!=null) {
@@ -69,6 +89,12 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
         }
     }
 
+    /**
+     * Sets a click listener for this viewholder.
+     *
+     * @param listener
+     * @return
+     */
     public TrackAltViewholder clickListener(@Nullable ViewholderListener<TrackAltViewholder> listener)
     {
         this.listener = listener;
@@ -83,6 +109,10 @@ public class TrackAltViewholder extends RecyclerView.ViewHolder implements View.
         }
     }
 
+    /**
+     * Returns the track bound to tohis viewholder.
+     * @return
+     */
     @Nullable
     public Track getTrack() {
         return track;

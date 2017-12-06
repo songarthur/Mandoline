@@ -4,6 +4,10 @@ import android.animation.ArgbEvaluator;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 
+/**
+ * A {@link ColorDrawable} that smoothly transitions from one color to another, even when its target
+ * color is changed in the middle of a transition.
+ */
 public class SmoothColorDrawable extends ColorDrawable
 {
     private final ArgbEvaluator evaluator = new ArgbEvaluator();
@@ -18,6 +22,11 @@ public class SmoothColorDrawable extends ColorDrawable
     private long startingPoint;
     private boolean done;
 
+    /**
+     * @param startColor The starting color of this drawable
+     * @param defaultColor A default fallback color
+     * @param durationInMs The duration of transitions
+     */
     public SmoothColorDrawable(int startColor, int defaultColor, int durationInMs)
     {
         super(startColor);
@@ -30,11 +39,19 @@ public class SmoothColorDrawable extends ColorDrawable
         this.done = true;
     }
 
+    /**
+     * Transitions the drawable to the default color.
+     */
     public void setDefaultColor()
     {
         setNewColor(defaultColor);
     }
 
+    /**
+     * Transitions the drawable to the new color.
+     *
+     * @param newColor
+     */
     public void setNewColor(int newColor)
     {
         this.startColor = currentColor;

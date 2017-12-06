@@ -10,6 +10,11 @@ import com.songa.mandoline.audio.service.binding.PlayerServiceBindingListener;
 import com.songa.mandoline.audio.service.binding.PlayerServiceBindingDelegate;
 import com.songa.mandoline.core.AppRouter;
 
+/**
+ * Base Activity class.
+ * Checks for permissions and redirects the user to a permission asking activity if necessary.
+ * Automatically binds/unbinds to the music playing service if the permissions allow it.
+ */
 public abstract class BaseActivity extends AppCompatActivity implements PlayerServiceBindingListener
 {
     private @Nullable PlayerServiceBindingDelegate playerBindingDelegate = null;

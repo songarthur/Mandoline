@@ -2,6 +2,9 @@ package com.songa.mandoline.artwork.lastfm.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Image from the LastFM API
+ */
 public class LastFmImage
 {
     @SerializedName("#text")

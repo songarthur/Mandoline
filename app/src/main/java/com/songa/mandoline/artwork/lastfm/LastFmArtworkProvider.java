@@ -29,6 +29,9 @@ import java.util.UUID;
 
 import retrofit2.Response;
 
+/**
+ * Artwork Provider for LastFM.
+ */
 public class LastFmArtworkProvider implements ArtworkProvider
 {
     @Override
@@ -40,6 +43,7 @@ public class LastFmArtworkProvider implements ArtworkProvider
     {
         if (artwork.getUrl()==null || artwork.getUrl().isEmpty()) { return; }
 
+        // picasso must be called from the main thread
         Handler mainThread = new Handler(Looper.getMainLooper());
         mainThread.post(new Runnable() {
             @Override
@@ -51,6 +55,8 @@ public class LastFmArtworkProvider implements ArtworkProvider
                 if (placeholderDrawable!=null) { r.placeholder(placeholderDrawable); }
                 if (errorDrawable!=null) { r.error(errorDrawable); }
 
+                // to generate a Palette we need a Bitmap
+                // we use Transform as a way to access the downloaded artwork's bitmap
                 r.transform(new Transformation() {
                     @Override
                     public Bitmap transform(Bitmap source) {
@@ -88,6 +94,12 @@ public class LastFmArtworkProvider implements ArtworkProvider
         }
     }
 
+    /**
+     * Fetches an artwork for a given artist.
+     *
+     * @param artistName
+     * @return
+     */
     @Nullable
     public ArtworkResult getArtistArtworkUrl(@NonNull String artistName)
     {
@@ -113,6 +125,13 @@ public class LastFmArtworkProvider implements ArtworkProvider
         }
     }
 
+    /**
+     * Fetches an artwork for a given album.
+     *
+     * @param artistName
+     * @param albumName
+     * @return
+     */
     @Nullable
     public ArtworkResult getAlbumArtworkUrl(@NonNull String artistName, @NonNull String albumName)
     {
@@ -138,6 +157,12 @@ public class LastFmArtworkProvider implements ArtworkProvider
         }
     }
 
+    /**
+     * Returns the biggest image among a list of images from LastFM.
+     *
+     * @param images the list of images to process
+     * @return
+     */
     @Nullable
     private LastFmImage getBestImage(@Nullable List<LastFmImage> images)
     {

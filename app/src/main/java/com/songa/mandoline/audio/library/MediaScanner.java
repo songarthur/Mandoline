@@ -12,6 +12,10 @@ import android.util.LongSparseArray;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to fetch data from MediaStore.
+ * In other words, fetches from the system the list of musics currently stored on the phone.
+ */
 public class MediaScanner
 {
     private final Context context;
@@ -21,6 +25,11 @@ public class MediaScanner
         this.context = context.getApplicationContext();
     }
 
+    /**
+     * Fetches all tracks from the {@link MediaStore}.
+     *
+     * @return
+     */
     public @NonNull List<Bundle> tracks()
     {
         Uri storage = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -77,6 +86,10 @@ public class MediaScanner
         return result;
     }
 
+    /**
+     * Fetches all album covers from the {@link MediaStore}
+     * @return a sparse array, each index corresponding to an albumId
+     */
     public LongSparseArray<String> albumCovers()
     {
         LongSparseArray<String> result = new LongSparseArray<>();
@@ -109,6 +122,12 @@ public class MediaScanner
         return result;
     }
 
+    /**
+     * Fetches the cover for a given album.
+     *
+     * @param albumId
+     * @return the cover or null if not found
+     */
     public @Nullable String albumCover(long albumId)
     {
         Uri storage = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
@@ -130,131 +149,4 @@ public class MediaScanner
         if (cursor!=null) { cursor.close(); }
         return result;
     }
-
-
-    /*
-        public @NonNull List<MediaBrowserCompat.MediaItem> allArtists()
-    {
-        Uri storage = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
-
-        String[] columns = new String[] {
-                MediaStore.Audio.Artists._ID,
-                MediaStore.Audio.Artists.ARTIST,
-                MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
-                MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
-        };
-
-        String selection = null;
-
-        String[] selectionArgs = null;
-
-        String sortOrder = MediaStore.Audio.Artists.ARTIST + " ASC";
-
-        Cursor cursor = context.getContentResolver().query(
-                storage,
-                null,
-                selection,
-                selectionArgs,
-                sortOrder);
-
-        List<MediaBrowserCompat.MediaItem> result = new ArrayList<>();
-        if (cursor==null) { return result; }
-
-        while (cursor.moveToNext()) {
-
-            String s = "";
-            for (String c : cursor.getColumnNames()) { s+=c+", "; }
-            Log.w("C ARTISTS", s + "");
-
-
-            Bundle extras = new Bundle();
-            extras.putLong(Metadata.METADATA_KEY_ARTIST_ID, cursor.getLong(0));
-            extras.putString(Metadata.METADATA_KEY_ARTIST, cursor.getString(1));
-            extras.putLong(Metadata.METADATA_KEY_NUM_DISCS, cursor.getLong(2));
-            extras.putLong(Metadata.METADATA_KEY_NUM_TRACKS, cursor.getLong(3));
-
-            String mediaId = MediaServiceFolders.PATH_FOLDER_ARTISTS + cursor.getLong(0);
-            Uri mediaUri = Uri.parse(mediaId);
-
-            MediaDescriptionCompat description = new MediaDescriptionCompat.Builder()
-                    .setTitle(cursor.getString(1))
-                    .setMediaId(mediaId)
-                    .setMediaUri(mediaUri)
-                    .setExtras(extras)
-                    .build();
-
-            MediaBrowserCompat.MediaItem item = new MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE | MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
-
-            result.add(item);
-        }
-
-        cursor.close();
-
-        return result;
-    }
-
-    public @NonNull List<MediaBrowserCompat.MediaItem> allAlbums(@Nullable Long artistId)
-    {
-        Uri storage = artistId!=null ?
-                MediaStore.Audio.Artists.Albums.getContentUri("external", artistId) : MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-
-        String[] columns = new String[] {
-                MediaStore.Audio.Albums._ID,
-                MediaStore.Audio.Albums.ALBUM,
-                MediaStore.Audio.Albums.ARTIST,
-                MediaStore.Audio.Albums.NUMBER_OF_SONGS,
-                MediaStore.Audio.Albums.FIRST_YEAR
-        };
-
-        String selection = null;
-
-        String[] selectionArgs = null;
-
-        String sortOrder = artistId!=null ?
-                MediaStore.Audio.Albums.ALBUM + " ASC" : MediaStore.Audio.Albums.FIRST_YEAR + " ASC, " + MediaStore.Audio.Albums.ALBUM + " ASC";
-
-        Cursor cursor = context.getContentResolver().query(
-                storage,
-                null,
-                selection,
-                selectionArgs,
-                sortOrder);
-
-        List<MediaBrowserCompat.MediaItem> result = new ArrayList<>();
-        if (cursor==null) { return result; }
-
-        while (cursor.moveToNext()) {
-
-            String s = "";
-            for (String c : cursor.getColumnNames()) { s+=c+", "; }
-            Log.w("C ALBUMS", s + "");
-
-            Bundle extras = new Bundle();
-            extras.putLong(Metadata.METADATA_KEY_ALBUM_ID, cursor.getLong(0));
-            extras.putString(Metadata.METADATA_KEY_ALBUM, cursor.getString(1));
-            extras.putString(Metadata.METADATA_KEY_ARTIST, cursor.getString(2));
-            extras.putLong(Metadata.METADATA_KEY_NUM_TRACKS, cursor.getInt(3));
-            extras.putLong(Metadata.METADATA_KEY_YEAR, cursor.getLong(4));
-
-            String mediaId = MediaServiceFolders.PATH_FOLDER_ALBUMS + cursor.getLong(0);
-            Uri mediaUri = Uri.parse(mediaId);
-
-            MediaDescriptionCompat description = new MediaDescriptionCompat.Builder()
-                    .setTitle(cursor.getString(1))
-                    .setMediaId(mediaId)
-                    .setMediaUri(mediaUri)
-                    .setExtras(extras)
-                    .build();
-
-            MediaBrowserCompat.MediaItem item = new MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE | MediaBrowserCompat.MediaItem.FLAG_BROWSABLE);
-
-            result.add(item);
-        }
-
-        cursor.close();
-
-        return result;
-    }
-
-    */
 }

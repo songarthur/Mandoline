@@ -49,7 +49,6 @@ public class PlayerPresenter
         view.setPlaylist(player.getPlaylist());
         view.setCurrentTrack(player.getPlaylistPosition());
 
-        //view.setPlaybackPosition(player.getPlaybackPosition());
         view.setIsShuffling(player.isShuffling());
         view.setRepeatMode(player.getRepeatMode());
 
