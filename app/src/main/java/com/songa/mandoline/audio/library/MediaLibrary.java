@@ -125,7 +125,7 @@ public class MediaLibrary
         }
 
         for (Bundle t : tracks) {
-            if (artistCatalog.indexOfKey(t.getLong(MediaMetadata.METADATA_KEY_ARTIST_ID))>0) { continue; }
+            if (artistCatalog.indexOfKey(t.getLong(MediaMetadata.METADATA_KEY_ARTIST_ID))>=0) { continue; }
             Artist a = MediaMetadata.artistFromMetadata(t);
             if (a!=null) {
                 artistCatalog.put(a.getArtistId(), a);
@@ -134,7 +134,7 @@ public class MediaLibrary
         }
 
         for (Bundle t : tracks) {
-            if (albumCatalog.indexOfKey(t.getLong(MediaMetadata.METADATA_KEY_ALBUM_ID))>0) { continue; }
+            if (albumCatalog.indexOfKey(t.getLong(MediaMetadata.METADATA_KEY_ALBUM_ID))>=0) { continue; }
             Album a = MediaMetadata.albumFromMetadata(t);
             if (a!=null) {
                 a.setCoverArtUri(covers.get(a.getAlbumId()));
