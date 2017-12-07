@@ -24,7 +24,8 @@
             app:cardCornerRadius="@dimen/corner_regular"
             app:cardPreventCornerOverlap="false"
             app:cardElevation="@dimen/elevation_high"
-            app:cardBackgroundColor="@color/colorPrimary">
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardUseCompatPadding="false">
 
             <ImageView
                 android:id="@+id/cover"
